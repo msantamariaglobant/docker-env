@@ -1,0 +1,41 @@
+version: '2'
+
+services:
+  traefik:
+    image: traefik
+    container_name: drupalproxy
+    restart: unless-stopped
+    command: -c /dev/null --web --docker --logLevel=DEBUG
+    networks:
+      - project1
+      - project2
+      - project3
+    ports:
+      - '80:80'
+      - '8080:8080'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+  
+  portainer:
+    image: portainer/portainer
+    container_name: drupalportainer
+    ports:
+      - "9000:9000"
+    command: -H unix:///var/run/docker.sock
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+
+networks:
+  project1:
+    external: 
+      name: corporate_default
+  project2:
+    external:
+      name: university_default
+  project3:
+    external:
+      name: support_default
+
+volumes:
+  portainer_data:
