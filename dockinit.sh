@@ -1,9 +1,8 @@
 #!/bin/bash
 
 echo "init sites"
+
 mkdir -p projects
-#mkdir -p projects/support
-#mkdir -p projects/university
 
 cd projects/
 

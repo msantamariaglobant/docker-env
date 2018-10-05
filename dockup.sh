@@ -2,7 +2,6 @@
 
 echo "Start Proxy Reverse Traefik"
 
-
 cd corporate
 make up
 cd ../support

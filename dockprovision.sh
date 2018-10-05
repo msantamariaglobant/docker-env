@@ -1,6 +1,7 @@
 #!/bin/bash
 
 echo "Start Provision"
+
 cd projects/corporate
 docker exec --user wodby ilcorporate_php composer install
 cd ../support
