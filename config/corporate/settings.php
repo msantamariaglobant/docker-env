@@ -797,3 +797,14 @@ $databases['default']['default'] = array (
 );
 $settings['install_profile'] = 'institutional';
 $config_directories['sync'] = '/var/www/html/config/sync/institutional';
+
+$settings['redis.connection']['host'] = 'redis';
+$settings['redis.connection']['port'] = '6379';
+//$settings['redis.connection']['password'] = '';
+$settings['redis.connection']['base'] = 0;
+$settings['redis.connection']['interface'] = 'PhpRedis';
+$settings['cache']['default'] = 'cache.backend.redis';
+$settings['cache']['bins']['bootstrap'] = 'cache.backend.chainedfast';
+$settings['cache']['bins']['discovery'] = 'cache.backend.chainedfast';
+$settings['cache']['bins']['config'] = 'cache.backend.chainedfast';
+$settings['container_yamls'][] = "modules/contrib/redis/example.services.yml";
