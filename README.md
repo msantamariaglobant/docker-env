@@ -46,11 +46,31 @@ Example path Drupal public files directory:
 ```
 
 10. Build the theme files. *CHECK TROUBLESHOTING*
-```
-./themebuild.sh
-```
+You should make sure you have your gulp and npm setup correct initially.(See package.json and the gulp require lines in the gulpfile.)
+When you make changes inside the theme, you should run 'gulp dist' to prepare the javascript and css files.
+
+## Regularly Using Your Environment
+
+### Starting Up a Site
+1. Each time you want to start up a site, you will want to go to the docker-env folder and run 'make up'.
+2. Then cd into the specific site's folder (docker-env/SITEFOLDER), for instance docker-env/corporate.  and run ‘make up’
+
+## Using composer/drush and other commands INSIDE the docker container
+You need to run commands like composer inside the docker container.
+1. Go to docker-env/SITENAME like docker-env/corporate. Run 'make shell' and you will connect to the docker container.
+2. Then you can execute commands like 'composer install'. Or you can run drush commands.
+3. Type 'exit' to exit the connection.
+
+### Drush
+You need to run commands like composer inside the docker container.
+1. Go to docker-env/SITENAME like docker-env/corporate. Run 'make shell' and you will connect to the docker container.
+2. Then you’ll be in that container. Cd to the 'web' folder and run drush commands, like ‘drush updatedb’ or ‘drush cr’
+
 
 ## TROUBLESHOTING
+
+## Sites not hosting properly
+Try restarting docker (closing all docker containers) and redoing the steps above for Starting Up a Site. 
 
 ### If you are a globant user and use centrify
 
