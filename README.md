@@ -3,49 +3,51 @@
 
 Before you start with this installation, please check your ssh credentials to the IL repositories.
 
-1. Make sure that you have the last backup DB for each site in the path ./db/[site]/mysql.sql
+1. Git clone this repo. Inside you will see main folders like 'db' 'projects' and a folder for each site ('corporate', 'support', and 'university').
 
-2. Make sure the sql file doesn't create a new DB.
+2. Make sure that you have the last backup DB for each site in the path docker-env/db/[site]/mysql.sql
 
-3. Update the `dockinit.sh` file, replacing _reponame_ with the respective git path for each site.
+3. Make sure the sql file doesn't create a new DB.
+
+4. Update the `dockinit.sh` file, replacing _reponame_ with the respective git path for each site.
 
 Example:
 ```
 git clone -b develop --single-branch [PATH-TO-CORPORATE-REPOSITORY] corporate
 ```
 
-4. With this command you clone the repositories in your local machine. 
+5. With this command you clone the repositories in your local machine. 
 ```
 ./dockinit.sh
 ``` 
 
-5. Creates the docker containers.
+6. Creates the docker containers.
 ```
 ./dockup.sh
 ```
 
-6. Execute composer install inside each project container. *CHECK TROUBLESHOTING*
+7. Execute composer install inside each project container. *CHECK TROUBLESHOTING*
 ```
 ./dockprovision.sh
 ```
 
-7. Install the DB in each project.
+8. Install the DB in each project.
 ```
 ./dockmysql.sh
 ```
 
-8. Make sure that you have the last backup public files for each site. Move the backup files into your drupal public file directory site
+9. Make sure that you have the last backup public files for each site. Move the backup files into your drupal public file directory site
 Example path Drupal public files directory:
 ```
 ./projects/corporate/web/sites/default/files/
 ```
 
-9. Set the settings.php and run the post install commands in each project.
+10. Set the settings.php and run the post install commands in each project.
 ```
 ./docksettings.sh
 ```
 
-10. Build the theme files. *CHECK TROUBLESHOTING*
+11. Build the theme files. *CHECK TROUBLESHOTING*
 You should make sure you have your gulp and npm setup correct initially.(See package.json and the gulp require lines in the gulpfile.)
 When you make changes inside the theme, you should run 'gulp dist' to prepare the javascript and css files.
 
