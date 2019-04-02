@@ -7,7 +7,14 @@ Before you start with this installation, please check your ssh credentials to th
 
 2. Make sure that you have the last backup DB for each site in the path docker-env/db/[site]/mysql.sql
 
-3. Make sure the sql file doesn't create a new DB.
+3. Make sure the sql file doesn't create a new DB. To do this, edit the sql file with an IDE and near the top of the file look for lines like CREATE [DATABASE NAME] or USE [DATABASE NAME], like these:
+
+```
+`CREATE DATABASE /*!32312 IF NOT EXISTS*/` institutional_test` /*!40100 DEFAULT CHARACTER SET latin1* /;
+
+USE `institutional_test`;
+```
+If you see these lines, delete them both.
 
 4. Update the `dockinit.sh` file, replacing _reponame_ with the respective git path for each site.
 
