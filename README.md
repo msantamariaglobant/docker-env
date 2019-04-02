@@ -3,54 +3,87 @@
 
 Before you start with this installation, please check your ssh credentials to the IL repositories.
 
-1. Make sure that you have the last backup DB for each site in the path ./db/[site]/mysql.sql
+1. Git clone this repo. Inside you will see main folders like 'db' 'projects' and a folder for each site ('corporate', 'support', and 'university').
 
-2. Make sure the sql file doesn't create a new DB.
+2. Make sure that you have the last backup DB for each site in the path docker-env/db/[site]/mysql.sql
 
-3. Update the `dockinit.sh` file, replacing _reponame_ with the respective git path for each site.
+3. Make sure the sql file doesn't create a new DB. To do this, edit the sql file with an IDE and near the top of the file look for lines like CREATE [DATABASE NAME] or USE [DATABASE NAME], like these:
+
+```
+`CREATE DATABASE /*!32312 IF NOT EXISTS*/` institutional_test` /*!40100 DEFAULT CHARACTER SET latin1* /;
+
+USE `institutional_test`;
+```
+If you see these lines, delete them both.
+
+4. Update the `dockinit.sh` file, replacing _reponame_ with the respective git path for each site.
 
 Example:
 ```
 git clone -b develop --single-branch [PATH-TO-CORPORATE-REPOSITORY] corporate
 ```
+For instance:
+```
+git clone -b develop --single-branch https://github.com/imaginelearning/website-corporate corporate
+```
 
-4. With this command you clone the repositories in your local machine. 
+5. With this command you clone the repositories in your local machine. 
 ```
 ./dockinit.sh
 ``` 
 
-5. Creates the docker containers.
+6. Creates the docker containers.
 ```
 ./dockup.sh
 ```
 
-6. Execute composer install inside each project container. *CHECK TROUBLESHOTING*
+7. Execute composer install inside each project container. *CHECK TROUBLESHOTING*
 ```
 ./dockprovision.sh
 ```
 
-7. Install the DB in each project.
+8. Install the DB in each project.
 ```
 ./dockmysql.sh
 ```
 
-8. Make sure that you have the last backup public files for each site. Move the backup files into your drupal public file directory site
+9. Make sure that you have the last backup public files for each site. Move the backup files into your drupal public file directory site
 Example path Drupal public files directory:
 ```
 ./projects/corporate/web/sites/default/files/
 ```
 
-9. Set the settings.php and run the post install commands in each project.
+10. Set the settings.php and run the post install commands in each project.
 ```
 ./docksettings.sh
 ```
 
-10. Build the theme files. *CHECK TROUBLESHOTING*
-```
-./themebuild.sh
-```
+11. Build the theme files. *CHECK TROUBLESHOTING*
+You should make sure you have your gulp and npm setup correct initially.(See package.json and the gulp require lines in the gulpfile.)
+When you make changes inside the theme, you should run 'gulp dist' to prepare the javascript and css files.
+
+## Regularly Using Your Environment
+
+### Starting Up a Site
+1. Each time you want to start up a site, you will want to go to the docker-env folder and run 'make up'.
+2. Then cd into the specific site's folder (docker-env/SITEFOLDER), for instance docker-env/corporate.  and run ‘make up’
+
+## Using composer/drush and other commands INSIDE the docker container
+You need to run commands like composer inside the docker container.
+1. Go to docker-env/SITENAME like docker-env/corporate. Run 'make shell' and you will connect to the docker container.
+2. Then you can execute commands like 'composer install'. Or you can run drush commands.
+3. Type 'exit' to exit the connection.
+
+### Drush
+You need to run commands like composer inside the docker container.
+1. Go to docker-env/SITENAME like docker-env/corporate. Run 'make shell' and you will connect to the docker container.
+2. Then you’ll be in that container. Cd to the 'web' folder and run drush commands, like ‘drush updatedb’ or ‘drush cr’
+
 
 ## TROUBLESHOTING
+
+## Sites not hosting properly
+Try restarting docker (closing all docker containers) and redoing the steps above for Starting Up a Site. 
 
 ### If you are a globant user and use centrify
 
