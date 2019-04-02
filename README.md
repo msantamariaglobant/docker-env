@@ -22,6 +22,10 @@ Example:
 ```
 git clone -b develop --single-branch [PATH-TO-CORPORATE-REPOSITORY] corporate
 ```
+For instance:
+```
+git clone -b develop --single-branch https://github.com/imaginelearning/website-corporate corporate
+```
 
 5. With this command you clone the repositories in your local machine. 
 ```
