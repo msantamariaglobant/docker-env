@@ -5,30 +5,23 @@ services:
     image: traefik
     container_name: drupalproxy
     restart: unless-stopped
-    command: -c /dev/null --web --docker --logLevel=DEBUG
+    #command: -c /dev/null --web --docker --logLevel=DEBUG
+    command: -c /dev/null --web --docker --logLevel=DEBUG --defaultEntryPoints='https' --entryPoints="Name:https Address::443 TLS:/certs/imaginelearning.com.cert,/certs/imaginelearning.com.key" --entryPoints="Name:http Address::80 Redirect.EntryPoint:https"
     networks:
       - project1
       - project2
       - project3
     ports:
       - '80:80'
+      - '443:443'
       - '8080:8080'
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-  
-  portainer:
-    image: portainer/portainer
-    container_name: drupalportainer
-    ports:
-      - "9000:9000"
-    command: -H unix:///var/run/docker.sock
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - portainer_data:/data
+      - ./certs:/certs/ 
 
 networks:
   project1:
-    external: 
+    external:
       name: corporate_default
   project2:
     external:
@@ -36,6 +29,3 @@ networks:
   project3:
     external:
       name: support_default
-
-volumes:
-  portainer_data:
